@@ -1,0 +1,34 @@
+# Python specific ignores
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+lib/
+include/
+bin/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.pytest_cache/
+htmlcov/
+.nox/
+.eggs/
+*.egg-info/
+dist/
+build/
+*.whl
+
+# Specific to your project's sensitive files
+.env
+instance/
+
+# Operating System Files
+.DS_Store # macOS
+.vscode/ # Visual Studio Code settings (optional, but often helpful to ignore)
+*.sublime-project # Sublime Text projects
+*.sublime-workspace # Sublime Text workspaces
+.idea/ # IntelliJ IDEA / PyCharm project files
