@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - The Global Fund</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles for the entire layout */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            display: flex; /* Makes body a flex container */
+            flex-direction: column; /* Stacks header and main section vertically */
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevent horizontal scroll due to off-canvas sidebar */
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            background-color: #1f2937; /* Tailwind gray-800 */
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky; /* Make header sticky */
+            top: 0;
+            width: 100%; /* Ensure header spans full width */
+            z-index: 100; /* Ensure header is above other content */
+        }
+        .dashboard-header .logo-link img {
+            height: 40px; /* Adjust as needed */
+        }
+        .dashboard-header .user-info {
+            font-weight: 500;
+        }
+        .dashboard-header .logout-button {
+            background-color: #ef4444; /* Tailwind red-500 */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        .dashboard-header .logout-button:hover {
+            background-color: #dc2626; /* Tailwind red-600 */
+        }
+
+        /* Mobile Menu Toggle Button (Hamburger) */
+        .dashboard-header .menu-toggle {
+            display: none; /* Hidden by default on desktop */
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem; /* Large enough to be finger-friendly */
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1002; /* Ensure it's above everything, including sidebar and overlay */
+            order: -1; /* Puts it to the left of the logo on mobile */
+        }
+
+        /* Main Dashboard Section (contains sidebar and main content) */
+        .dashboard-main {
+            display: flex;
+            flex: 1; /* Allows it to take remaining vertical space */
+            width: 100%; /* Important for horizontal flow */
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: #374151; /* Tailwind gray-700 */
+            color: white;
+            padding-top: 2rem; /* Initial padding for content */
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            position: fixed; /* Fixed for both desktop and mobile to allow sliding */
+            top: 0;
+            left: 0;
+            height: 100vh; /* Full viewport height */
+            z-index: 1000; /* Below mobile toggle, above main content */
+            overflow-y: auto; /* Enable scrolling for long sidebar content */
+        }
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar nav ul li a {
+            display: block;
+            padding: 1rem 2rem;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            background-color: #4b5563; /* Tailwind gray-600 */
+        }
+        /* Hide desktop logout on mobile and vice-versa */
+        .sidebar .md\:hidden { display: none; } /* Tailwind utility for hiding on desktop */
+        .dashboard-header .md\:block { display: none; } /* Tailwind utility for showing on desktop */
+
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1; /* Takes remaining horizontal space */
+            padding: 2rem;
+            overflow-y: auto;
+            transition: margin-left 0.3s ease-in-out; /* Smooth transition for shifting */
+            margin-left: 250px; /* Default offset for desktop sidebar */
+        }
+        #dashboardContentArea {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            min-height: 500px; /* Ensure content area has a minimum height */
+        }
+
+        /* Overlay for Mobile Sidebar */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            z-index: 999; /* Below sidebar, above main content */
+            display: none; /* Hidden by default */
+        }
+        .overlay.visible {
+            display: block; /* Shown when sidebar is active */
+        }
+
+        /* --- Responsive Design: Media Queries --- */
+
+        /* Desktop Styles (min-width: 769px) */
+        @media (min-width: 769px) {
+            .dashboard-header .menu-toggle {
+                display: none; /* Hide toggle on desktop */
+            }
+            .dashboard-header nav.md\:block {
+                display: block; /* Show desktop logout button */
+            }
+            .sidebar {
+                transform: translateX(0); /* Ensure sidebar is always visible on desktop */
+                position: sticky; /* Keep it sticky on desktop to scroll with content */
+                top: 0; /* Align with header */
+                padding-top: 6rem; /* Adjust padding for sticky header if needed */
+            }
+            .sidebar.hidden-sidebar { /* This class would be used for desktop if you implemented a "collapse sidebar" feature */
+                transform: translateX(-250px);
+            }
+            .main-content {
+                margin-left: 250px; /* Main content offset for fixed sidebar */
+                width: calc(100% - 250px); /* Fill remaining width */
+            }
+            /* Explicitly hide mobile logout on desktop */
+            .sidebar .md\:hidden {
+                display: none;
+            }
+        }
+
+        /* Mobile Styles (max-width: 768px) */
+        @media (max-width: 768px) {
+            .dashboard-header {
+                padding-left: 1rem; /* Adjust padding for button */
+                padding-right: 1rem;
+            }
+            .dashboard-header .menu-toggle {
+                display: block; /* Show mobile toggle */
+            }
+            .dashboard-header nav.md\:block {
+                display: none; /* Hide desktop logout */
+            }
+
+            .sidebar {
+                transform: translateX(-100%); /* Hidden by default on mobile */
+                box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Stronger shadow when open */
+            }
+            .sidebar.visible {
+                transform: translateX(0); /* Slide in when visible */
+            }
+            .sidebar.hidden-sidebar { /* Ensure it's hidden when closed on mobile */
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0; /* No offset for main content on mobile */
+                width: 100%; /* Main content takes full width */
+                padding-top: 1rem; /* Adjust padding for mobile layout */
+            }
+            /* Show mobile logout button within sidebar */
+            .sidebar .md\:hidden {
+                display: block;
+            }
+        }
+
+        /* Common styles for dashboard messages (ensure these are present) */
+        .dashboard-message-box {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            display: none; /* Hidden by default */
+        }
+        .dashboard-message-box.success {
+            background-color: #d1fae5; /* green-100 */
+            border: 1px solid #34d399; /* green-400 */
+            color: #065f46; /* green-700 */
+        }
+        .dashboard-message-box.error {
+            background-color: #fee2e2; /* red-100 */
+            border: 1px solid #ef4444; /* red-400 */
+            color: #991b1b; /* red-700 */
+        }
+        .dashboard-message-box.info {
+            background-color: #e0f2fe; /* blue-100 */
+            border: 1px solid #60a5fa; /* blue-400 */
+            color: #1e40af; /* blue-700 */
+        }
+        /* Status badge styling - these should ideally be in styles.css */
+        .status-badge {
+            display: inline-flex;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem; /* text-xs */
+            line-height: 1.25rem; /* leading-5 */
+            font-weight: 600; /* font-semibold */
+            border-radius: 9999px; /* rounded-full */
+        }
+        .status-badge.claimed {
+            background-color: #d1fae5; /* bg-green-100 */
+            color: #065f46; /* text-green-800 */
+        }
+        .status-badge.pending {
+            background-color: #fffbeb; /* bg-yellow-100 */
+            color: #92400e; /* text-yellow-800 */
+        }
+        .status-badge.delivered {
+            background-color: #eff6ff; /* bg-blue-100 */
+            color: #1e40af; /* text-blue-800 */
+        }
+        .status-badge.rejected, .status-badge.cancelled {
+            background-color: #fee2e2; /* bg-red-100 */
+            color: #991b1b; /* text-red-800 */
+        }
+        .status-badge.info { /* For general info if needed */
+            background-color: #e0f2fe; /* bg-gray-100 */
+            color: #4b5563; /* text-gray-800 */
+        }
+
+        /* Modal styling for confirmation (ensure these are present) */
+        .confirm-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000; /* Higher than sidebar and main content */
+        }
+        .confirm-box {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .confirm-box p {
+            margin-bottom: 1.5rem;
+            font-size: 1.125rem;
+            color: #374151;
+        }
+        .confirm-buttons button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 0.5rem;
+            transition: background-color 0.2s;
+        }
+        .confirm-buttons .confirm-yes {
+            background-color: #ef4444; /* red-500 */
+            color: white;
+            border: none;
+        }
+        .confirm-buttons .confirm-yes:hover {
+            background-color: #dc2626; /* red-600 */
+        }
+        .confirm-buttons .confirm-no {
+            background-color: #e5e7eb; /* gray-200 */
+            color: #374151;
+            border: none;
+        }
+        .confirm-buttons .confirm-no:hover {
+            background-color: #d1d5db; /* gray-300 */
+        }
+
+        /* Styling for winner image preview in form */
+        .image-preview-container {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .image-preview {
+            max-width: 150px;
+            max-height: 150px;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            object-fit: cover;
+            display: none; /* Hidden by default, shown by JS if image exists */
+        }
+    </style>
+</head>
+<body>
+    <header class="dashboard-header">
+        <div class="logo-section">
+            <a href="/" class="logo-link">
+                <img src="{{ url_for('static', filename='images/RAIL.jpg') }}" alt="The Global Fund" class="pch-logo-img">
+            </a>
+        </div>
+        <button id="sidebarToggle" class="menu-toggle">☰</button> 
+        <div class="user-info">
+            Welcome, {{ admin_username }}!
+        </div>
+        <nav class="hidden md:block">
+            <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+        </nav>
+    </header>
+
+    <div class="dashboard-main">
+        <div id="overlay" class="overlay"></div>
+
+        <aside id="sidebar" class="sidebar hidden-sidebar">
+            <nav>
+                <ul>
+                    <li><a href="#" id="nav-view-applications" data-content-url="{{ url_for('view_applications_content') }}" class="active sidebar-item">View Applications</a></li>
+                    <li><a href="#" id="nav-manage-winners" data-content-url="{{ url_for('view_winners_content') }}" class="sidebar-item">Manage Winners</a></li>
+                    <li><a href="#" id="nav-add-winner" data-content-url="{{ url_for('winner_form_content') }}" class="sidebar-item">Add New Winner</a></li>
+                    
+                    {# Mobile-specific Logout Button within the sidebar #}
+                    <li class="md:hidden"><a href="{{ url_for('logout') }}" class="sidebar-item">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main id="mainContent" class="main-content">
+            <div id="dashboardContentArea" class="content-placeholder">
+                <p class="text-gray-500">Select an option from the sidebar to view content.</p>
+            </div>
+        </main>
+    </div>
+
+    <div id="confirmOverlay" class="confirm-overlay" style="display: none;">
+        <div class="confirm-box">
+            <p id="confirmMessage"></p>
+            <div class="confirm-buttons">
+                <button id="confirmYes" class="confirm-yes">Yes</button>
+                <button id="confirmNo" class="confirm-no">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

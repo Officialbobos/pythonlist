@@ -1,0 +1,682 @@
+/* General Body Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f2f5; /* Light grey background */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Main Header Styles */
+.main-header {
+    background-color: #ffffff;
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.logo-section .pch-logo-img {
+    height: 70px; /* Adjust as needed */
+}
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+.main-nav ul li a {
+    text-decoration: none;
+    color: #66460b;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+.main-nav ul li a:hover {
+    color: #4e3507;     
+}
+
+/* Hero Section child elements/layout */
+.hero-section .container {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%; /* Ensure container fills width within hero-section */
+    padding: 0 1rem; /* Add horizontal padding to prevent content from touching edges */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.search-box-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Align items vertically in the center */
+    gap: 10px;
+    margin-top: 30px;
+    /* Optional: Add a background or subtle styling for the search box itself for contrast */
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* More pronounced shadow */
+}
+
+.hero-search-input {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    flex-grow: 1; /* Allows input to take up available space */
+    max-width: 400px; /* Limit max width for aesthetic reasons */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    color: #333; /* Ensure text color is readable */
+}
+
+.hero-search-button {
+    background-color: #035307;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Add transform for hover effect */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+.hero-search-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+/* PCH Mission Section Styles */
+.pch-mission-section {
+    padding: 60px 20px;
+    background-color: #ffffff;
+    margin-top: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.pch-mission-section h3 {
+    font-size: 1.5em;
+    color: #218838;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+}
+.pch-mission-section p {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    line-height: 1.8;
+    color: #555;
+}
+.empowerment-list {
+    list-style: disc;
+    margin-left: 25px;
+    margin-bottom: 20px;
+    color: #218838;
+    font-size: 1.05em;
+    font-weight: 700;
+}
+.empowerment-list li {
+    margin-bottom: 8px;
+}
+.call-to-action {
+    font-style: italic;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1.15em;
+    color: #555;
+}
+.apply-button {
+    display: block;
+    width: fit-content;
+    margin: 30px auto 0;
+    background-color: #ffc107;
+    color: #333;
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.apply-button:hover {
+    background-color: #836502;
+    transform: translateY(-2px);
+}
+
+/* Winners List Section - Table styles */
+.winners-list-section {
+    padding: 40px 20px;
+    background-color: #ffffff;
+    margin-top: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.winners-list-section h2 {
+    font-size: 2.2em;
+    color: #866508;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+}
+.table-responsive {
+    /* This is the key for horizontal scrolling */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* For smoother scrolling on iOS */
+}
+.winners-table {
+    width: 100%; /* Ensures table takes full width if content allows */
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-radius: 10px;
+    overflow: hidden; /* Ensures rounded corners are applied */
+    /* Add min-width if the table content is typically wider than mobile screens
+       This prevents the table from shrinking too much on small screens
+       and ensures the scrollbar appears when needed. Adjust value as necessary. */
+    min-width: 600px; /* Example: adjust based on your table content width */
+}
+.winners-table th, .winners-table td {
+    padding: 12px 15px;
+    border: 1px solid #6b5805;
+    text-align: left;
+    font-size: 0.95em;
+    white-space: nowrap; /* Prevents text from wrapping within cells, keeping rows concise */
+}
+.winners-table thead {
+    background-color: #2a6e03;
+    color: white;
+}
+.winners-table tbody tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+.winners-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+.winners-table .loading-row, .winners-table .no-winners-row {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #ad8f07;
+}
+
+/* Content Cards Section (Agent and Winner Cards) */
+.content-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+.card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+    flex: 1;
+    min-width: 300px;
+    max-width: 550px; /* Adjusted max-width for better layout */
+}
+.card-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #bd9a02;
+    margin-bottom: 20px;
+}
+.card-text-content h4 {
+    color: #b19105;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+.card-text-content h3 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+.card-text-content p {
+    font-size: 1em;
+    margin-bottom: 10px;
+    line-height: 1.7;
+    color: #555;
+}
+.contact-agent-button {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.contact-agent-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+/* Winner details container (for previous modal/dynamic display - now mostly overridden by Tailwind classes in JS) */
+.winner-details-container {
+    /* These styles are largely replaced by Tailwind classes in script.js for the modal content */
+    /* Kept for compatibility if used elsewhere, but might be redundant for the modal */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+}
+.winner-details-container h3 {
+    color: #28a745; /* Green for congratulations */
+    font-size: 2em;
+    margin-bottom: 15px;
+}
+.winner-details-container img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #007bff;
+    margin-bottom: 15px;
+}
+.winner-details-container p {
+    margin: 8px 0;
+    font-size: 1.1em;
+    color: #333;
+}
+.winner-details-container .amount {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #dc3545; /* Red for emphasis */
+}
+.winner-details-container .status {
+    font-weight: bold;
+    color: #6c757d;
+}
+.message-box-frontend {
+    background-color: #e7f3e7;
+    border: 1px solid #d4edda;
+    color: #155724;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Confetti Animation from previous response */
+.winners-card-section { /* Renamed from .container to avoid conflict */
+    background-color: white;
+    padding: 2rem; /* Reduced padding for smaller screens */
+    border-radius: 0.75rem; /* Rounded corners */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    position: relative;
+    overflow: hidden;
+    max-width: 100%; /* Limit width to ensure it doesn't span full width on larger screens */
+    margin: 0 auto; /* Center the card horizontally on all screen sizes */
+    display: flex; /* Use flexbox for centering content */
+    flex-direction: column; /* Stack content vertically */
+    justify-content: center; /* Center content vertically within the card */
+    align-items: center; /* Center content horizontally within the card */
+    text-align: center; /* Center text within the card */
+}
+.confetti {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1; /* Ensure confetti is above content */
+}
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: currentColor;
+    opacity: 0.7;
+    animation: fall linear infinite;
+    border-radius: 50%;
+}
+.confetti-piece:nth-child(1) { color: #f44336; left: 10%; animation-duration: 2s; animation-delay: 0s; }
+.confetti-piece:nth-child(2) { color: #e91e63; left: 20%; animation-duration: 2.5s; animation-delay: 0.5s; }
+.confetti-piece:nth-child(3) { color: #9c27b0; left: 30%; animation-duration: 3s; animation-delay: 1s; }
+.confetti-piece:nth-child(4) { color: #673ab7; left: 40%; animation-duration: 2s; animation-delay: 1.5s; }
+.confetti-piece:nth-child(5) { color: #3f51b5; left: 50%; animation-duration: 2.5s; animation-delay: 2s; }
+.confetti-piece:nth-child(6) { color: #2196f3; left: 60%; animation-duration: 3s; animation-delay: 2.5s; }
+.confetti-piece:nth-child(7) { color: #03a9f4; left: 70%; animation-duration: 2s; animation-delay: 3s; }
+.confetti-piece:nth-child(8) { color: #00bcd4; left: 80%; animation-duration: 2.5s; animation-delay: 3.5s; }
+.confetti-piece:nth-child(9) { color: #009688; left: 90%; animation-duration: 3s; animation-delay: 4s; }
+
+@keyframes fall {
+    from { transform: translateY(-100px) rotateZ(0deg); opacity: 0.7; }
+    to { transform: translateY(calc(100vh + 100px)) rotateZ(720deg); opacity: 0; }
+}
+
+/* --- NEW / UPDATED MODAL STYLES --- */
+
+/* Message Overlay (remains consistent) */
+.message-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* General Modal Content Styling - applied to both message-box and winner-details-modal */
+.message-box, .modal-content {
+    background: #fff;
+    padding: 30px; /* Default padding for message-box */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    position: relative; /* For close button */
+}
+
+/* Specific styling for the winner details modal to override general modal-content */
+.winner-details-modal .modal-content {
+    background-color: #ffffff;
+    padding: 2.5rem; /* Increased padding as per new design */
+    border-radius: 1rem; /* More rounded corners */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+    position: relative;
+    max-width: 90%; /* Max width for responsiveness */
+    width: 600px; /* Max width on larger screens */
+    max-height: 90vh; /* Max height to prevent overflow */
+    overflow-y: auto; /* Scroll if content is too long */
+    animation: fadeIn 0.3s ease-out; /* Basic fade-in for the modal itself */
+}
+
+/* Close button for all modals */
+.modal-content .close-button {
+    position: absolute;
+    top: 1rem; /* Adjusted from 10px to 1rem for consistency */
+    right: 1rem; /* Adjusted from 20px to 1rem for consistency */
+    font-size: 2rem; /* Adjusted from 28px to 2rem for consistency */
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s ease-in-out;
+    font-weight: bold; /* Ensure it's bold */
+}
+.modal-content .close-button:hover {
+    color: #333;
+}
+
+/* Specific animation classes for elements within the modal */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.animate-fade-in-down {
+    animation: fadeInDown 0.6s ease-out forwards;
+}
+
+.animate-zoom-in {
+    animation: zoomIn 0.5s ease-out forwards;
+}
+
+/* Existing styles for message boxes (not winner details) */
+.message-box p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+.message-box button, .modal-content button { /* Added modal-content button for general styling if applicable */
+    background-color: #007bff;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+.message-box button:hover, .modal-content button:hover {
+    background-color: #0056b3;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .main-nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    .hero-section {
+        padding: 30px 15px;
+    }
+    .search-box-container {
+        flex-direction: column; /* Stack input and button on smaller screens */
+        gap: 15px; /* More space between stacked items */
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+    .hero-search-input {
+        width: 100%; /* Full width when stacked */
+        max-width: none; /* Remove max-width restriction */
+    }
+    .hero-search-button {
+        width: 100%; /* Full width when stacked */
+    }
+    .pch-mission-section, .winners-list-section, .content-cards, .winners-card-section {
+        padding: 20px 20px;
+    }
+    .pch-mission-section h3, .winners-list-section h2 {
+        font-size: 1.8em;
+    }
+    .card {
+        min-width: unset;
+        width: 100%;
+    }
+    .winners-card-section {
+        padding: 1.5rem; /* Further reduce padding for very small screens */
+        font-size: 0.90rem; /* Slightly reduce base font size */
+    }
+    /* Adjust font sizes for elements within the card (if specific classes exist) */
+    .winners-card-section h1 { /* Example: if you have an h1 inside */
+        font-size: 1rem;
+    }
+    .winners-card-section p { /* Example: if you have paragraphs inside */
+        font-size: 0.90rem;
+    }
+    /* Ensure images are responsive and don't overflow */
+    .winners-card-section img {
+        max-width: 100%; /* Ensure image fits within its container */
+        height: auto; /* Maintain aspect ratio */
+        display: block; /* Remove extra space below images */
+        margin: 0 auto; /* Center image if it's smaller than its container */
+    }
+    /* Confetti styles (optional, but good to ensure it doesn't interfere) */
+    .confetti {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden; /* Ensure confetti stays within the card */
+    }
+
+    /* --- Responsive Table Specific Adjustments for Horizontal Scroll --- */
+    .winners-table {
+        /* On smaller screens, the table content might exceed viewport.
+           min-width combined with overflow-x: auto on parent .table-responsive
+           will ensure horizontal scrolling. */
+        min-width: 600px; /* Adjust this value if your table content is wider/narrower */
+    }
+
+    /* Removed display: block for tr, td, and td::before
+       to maintain the row-based structure and enable horizontal scrolling. */
+
+    .winners-table th, .winners-table td {
+        /* Ensures content stays in a single line, enabling horizontal scroll */
+        white-space: nowrap;
+    }
+}
+
+/* Additional media query for even smaller screens (e.g., ~480px) */
+@media (max-width: 480px) {
+    .winners-list-section {
+        padding: 15px; /* Reduce padding further */
+    }
+    /* No special font size adjustments for table cells here, as
+       white-space: nowrap handles layout, and the overall table
+       will scroll. */
+    .modal-content {
+        padding: 20px;
+        width: 95%; /* Make modal nearly full width */
+    }
+    .winner-details-modal .modal-content {
+        padding: 1.5rem;
+    }
+}
+
+/* --- General Footer Styles (Add these to your CSS if you have a footer) --- */
+/* If you provide HTML for the footer, I can refine this further. */
+.main-footer {
+    background-color: #333; /* Dark background for footer */
+    color: #eee; /* Light text color */
+    padding: 40px 20px;
+    font-size: 0.9em;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px; /* Space between columns */
+}
+
+.footer-section {
+    flex: 1; /* Distribute space evenly */
+    min-width: 250px; /* Minimum width before wrapping */
+    margin-bottom: 20px; /* Space between sections on wrapped layout */
+}
+
+.footer-section h4 {
+    color: #01fd55; /* Highlight color for headings */
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+    color: #eee;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #fcfcfc;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.social-icons a {
+    color: #eee;
+    font-size: 1em; /* Adjust icon size */
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #06720b;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #555;
+    color: #aaa;
+}
+
+/* Responsive adjustments for footer */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-section {
+        min-width: unset;
+        width: 100%;
+    }
+    .social-icons {
+        justify-content: center;
+        size: 0.9em
+    }
+}

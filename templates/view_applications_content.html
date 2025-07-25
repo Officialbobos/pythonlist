@@ -1,0 +1,221 @@
+<form id="grantApplicationForm" class="space-y-6 p-8 bg-white shadow-xl rounded-lg max-w-2xl mx-auto my-10">
+    <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">Grant Application Form</h2>
+
+    <div id="formMessage" class="hidden p-3 rounded-md text-sm text-center"></div>
+
+    <div class="space-y-4">
+        <h3 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">Personal Information</h3>
+        
+        <div>
+            <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+            <input type="text" name="fullName" id="fullName" required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                   placeholder="Your full legal name">
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address <span class="text-red-500">*</span></label>
+                <input type="email" name="email" id="email" required
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                       placeholder="you@example.com">
+            </div>
+            <div>
+                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number <span class="text-red-500">*</span></label>
+                <input type="tel" name="phone" id="phone" required
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                       placeholder="+1234567890">
+            </div>
+        </div>
+
+        <div>
+            <label for="dob" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth <span class="text-red-500">*</span></label>
+            <input type="date" name="dob" id="dob" required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+        </div>
+    </div>
+
+    <div class="space-y-4 pt-4">
+        <h3 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">Address Information</h3>
+        <div>
+            <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Street Address <span class="text-red-500">*</span></label>
+            <input type="text" name="address" id="address" required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                   placeholder="123 Main St">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City <span class="text-red-500">*</span></label>
+                <input type="text" name="city" id="city" required
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                       placeholder="Anytown">
+            </div>
+            <div>
+                <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State/Province <span class="text-red-500">*</span></label>
+                <input type="text" name="state" id="state" required
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                       placeholder="State/Province">
+            </div>
+            <div>
+                <label for="zipCode" class="block text-sm font-medium text-gray-700 mb-1">Zip/Postal Code <span class="text-red-500">*</span></label>
+                <input type="text" name="zipCode" id="zipCode" required
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                       placeholder="12345">
+            </div>
+        </div>
+        <div>
+            <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Country <span class="text-red-500">*</span></label>
+            <input type="text" name="country" id="country" required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                   placeholder="Your Country">
+        </div>
+    </div>
+
+    <div class="space-y-4 pt-4">
+        <h3 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">Financial & Motivation</h3>
+        <div>
+            <label for="occupation" class="block text-sm font-medium text-gray-700 mb-1">Occupation <span class="text-red-500">*</span></label>
+            <input type="text" name="occupation" id="occupation" required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                   placeholder="Your current occupation">
+        </div>
+        <div>
+            <label for="income" class="block text-sm font-medium text-gray-700 mb-1">Annual Household Income <span class="text-red-500">*</span></label>
+            <select name="income" id="income" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                <option value="">Select Income Range</option>
+                <option value="Below $25,000">Below $25,000</option>
+                <option value="$25,000 - $50,000">$25,000 - $50,000</option>
+                <option value="$50,001 - $75,000">$50,001 - $75,000</option>
+                <option value="$75,001 - $100,000">$75,001 - $100,000</option>
+                <option value="Above $100,000">Above $100,000</option>
+            </select>
+        </div>
+        <div>
+            <label for="reasonForApplying" class="block text-sm font-medium text-gray-700 mb-1">Reason for Applying <span class="text-red-500">*</span></label>
+            <textarea name="reasonForApplying" id="reasonForApplying" rows="4" required
+                      class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      placeholder="Briefly explain why you are applying for this grant and how it will help you."></textarea>
+        </div>
+    </div>
+
+    <div class="space-y-4 pt-4">
+        <h3 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">How You Heard About Us</h3>
+        <div>
+            <label for="heardAboutUs" class="block text-sm font-medium text-gray-700 mb-1">How did you hear about us? <span class="text-red-500">*</span></label>
+            <select name="heardAboutUs" id="heardAboutUs" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                <option value="">Select an Option</option>
+                <option value="Social Media">Social Media</option>
+                <option value="Friend/Family">Friend/Family</option>
+                <option value="Online Search">Online Search</option>
+                <option value="Advertisement">Advertisement</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div>
+            <label for="reference" class="block text-sm font-medium text-gray-700 mb-1">Reference (Optional)</label>
+            <input type="text" name="reference" id="reference"
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                   placeholder="Name of person or organization who referred you">
+        </div>
+    </div>
+
+    <button type="submit" class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-lg font-semibold transition duration-200">
+        Submit Application
+    </button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('grantApplicationForm');
+        const formMessage = document.getElementById('formMessage');
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Clear previous messages
+            formMessage.textContent = '';
+            formMessage.className = 'hidden p-3 rounded-md text-sm text-center'; // Reset classes
+
+            // Get form data directly by input name
+            const formData = {
+                fullName: form.fullName.value.trim(),
+                email: form.email.value.trim(),
+                phone: form.phone.value.trim(),
+                address: form.address.value.trim(),
+                city: form.city.value.trim(),
+                state: form.state.value.trim(),
+                zipCode: form.zipCode.value.trim(),
+                country: form.country.value.trim(),
+                dob: form.dob.value.trim(),
+                occupation: form.occupation.value.trim(),
+                income: form.income.value.trim(),
+                reasonForApplying: form.reasonForApplying.value.trim(),
+                reference: form.reference.value.trim(), // Optional, so .trim() is fine
+                heardAboutUs: form.heardAboutUs.value.trim(),
+            };
+
+            // Basic client-side validation
+            const requiredFields = [
+                'fullName', 'email', 'phone', 'address', 'city', 'state', 'zipCode',
+                'country', 'dob', 'occupation', 'income', 'reasonForApplying', 'heardAboutUs'
+            ];
+            
+            for (const field of requiredFields) {
+                if (!formData[field]) {
+                    formMessage.textContent = `Please fill in the required field: ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`; // Makes it more readable
+                    formMessage.classList.remove('hidden');
+                    formMessage.classList.add('bg-red-100', 'text-red-700');
+                    return;
+                }
+            }
+
+            // Email format validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(formData.email)) {
+                formMessage.textContent = 'Please enter a valid email address.';
+                formMessage.classList.remove('hidden');
+                formMessage.classList.add('bg-red-100', 'text-red-700');
+                return;
+            }
+
+            // Simple phone number validation (optional, can be more robust)
+            const phoneRegex = /^\+?[0-9\s\-()]{7,20}$/; // Allows +, numbers, spaces, hyphens, parentheses
+            if (!phoneRegex.test(formData.phone)) {
+                formMessage.textContent = 'Please enter a valid phone number.';
+                formMessage.classList.remove('hidden');
+                formMessage.classList.add('bg-red-100', 'text-red-700');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/submit_application', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    formMessage.textContent = data.message;
+                    formMessage.classList.remove('hidden');
+                    formMessage.classList.add('bg-green-100', 'text-green-700');
+                    form.reset(); // Clear form on success
+                } else {
+                    formMessage.textContent = data.message || 'An error occurred during submission.';
+                    formMessage.classList.remove('hidden');
+                    formMessage.classList.add('bg-red-100', 'text-red-700');
+                }
+            } catch (error) {
+                console.error('Error submitting application:', error);
+                formMessage.textContent = 'Network error. Please try again later.';
+                formMessage.classList.remove('hidden');
+                formMessage.classList.add('bg-red-100', 'text-red-700');
+            }
+        });
+    });
+</script>

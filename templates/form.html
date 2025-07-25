@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Global Fund - Grant Application</title>
+    <link rel="stylesheet" href="/static/css/form.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-indigo-100 min-h-screen flex flex-col items-center py-10 px-4">
+
+    <div id="app" class="bg-white p-6 md:p-8 rounded-lg shadow-xl w-full max-w-4xl flex flex-col md:flex-row gap-6 md:gap-8">
+        <nav class="md:w-1/4 flex flex-col gap-4 p-4 bg-purple-50 rounded-lg shadow-sm">
+            <a href="/" id="nav-return-homepage" class="bg-indigo-600 text-white text-center py-3 px-6 rounded-md hover:bg-indigo-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-lg font-semibold shadow-md">
+                Return Homepage
+            </a>
+            <a href="mailto:ggf.agent.02488@gmail.com" target="_blank"
+               class="inline-block px-6 py-3 bg-blue-600 text-white font-bold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 text-lg text-center">
+                Email Agent
+            </a>
+            <a href="tel:+1-555-123-4567"
+               class="inline-block px-6 py-3 bg-green-600 text-white font-bold rounded-lg shadow-md hover:bg-green-700 transition duration-300 text-lg text-center">
+                Call Agent
+            </a>
+            <p class="text-sm text-gray-600 text-center mt-2">Contact Agent In-Charge</p>
+
+            <button id="nav-apply-grant" class="bg-indigo-400 text-white py-3 px-6 rounded-md hover:bg-indigo-500 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-lg font-semibold shadow-md">
+                Apply for Grant
+            </button>
+        </nav>
+
+        <main class="md:w-3/4 p-6 bg-white rounded-lg shadow-md">
+            <div id="check-winner-section" class="content-section">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Make sure you fill out the application form! Once your Application form is submitted successfully, Contact the agent immediately</h1>
+                <p class="text-gray-600 mb-6 text-center">Great News Awaits You!</p>
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <input type="text" id="winner-name-input" placeholder="Enter your full name to check"
+                           class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400 flex-grow">
+                    <button id="check-winner-button" class="bg-green-500 text-white py-3 px-6 rounded-md hover:bg-green-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 font-semibold shadow-md">
+                        Check Now
+                    </button>
+                </div>
+
+                <div id="winner-result" class="p-4 rounded-md text-center text-lg font-medium hidden"></div>
+            </div>
+
+            <div id="apply-grant-section" class="content-section hidden">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Apply for the The Global Fund Program</h1>
+                <p class="text-gray-600 mb-6 text-center">Please fill out the form below to apply for our grant program.</p>
+                <form id="grant-application-form" class="space-y-4" enctype="multipart/form-data">
+                    <div>
+                        <label for="full-name" class="block text-gray-700 text-sm font-bold mb-2">Full Name:</label>
+                        <input type="text" id="full-name" name="fullName"
+                               class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                    </div>
+                    <div>
+                        <label for="mother-maiden-name" class="block text-gray-700 text-sm font-bold mb-2">Mother's Maiden Name:</label>
+                        <input type="text" id="mother-maiden-name" name="motherMaidenName"
+                               class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email Address:</label>
+                        <input type="email" id="email" name="email"
+                               class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
+                        <input type="tel" id="phone" name="phone"
+                               class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                    </div>
+                    <div>
+                        <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Street Address:</label>
+                        <textarea id="address" name="address" rows="2"
+                                  class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="city" class="block text-gray-700 text-sm font-bold mb-2">City:</label>
+                            <input type="text" id="city" name="city"
+                                   class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                        </div>
+                        <div>
+                            <label for="state" class="block text-gray-700 text-sm font-bold mb-2">State/Province:</label>
+                            <input type="text" id="state" name="state"
+                                   class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="zip-code" class="block text-gray-700 text-sm font-bold mb-2">Zip/Postal Code:</label>
+                            <input type="text" id="zip-code" name="zipCode"
+                                   class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                        </div>
+                        <div>
+                            <label for="country" class="block text-gray-700 text-sm font-bold mb-2">Country:</label>
+                            <input type="text" id="country" name="country"
+                                   class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="date-of-birth" class="block text-gray-700 text-sm font-bold mb-2">Date of Birth:</label>
+                        <input type="date" id="date-of-birth" name="dateOfBirth"
+                               class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                    </div>
+                    <div>
+                        <label for="gender" class="block text-gray-700 text-sm font-bold mb-2">Gender:</label>
+                        <select id="gender" name="gender" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="occupation" class="block text-gray-700 text-sm font-bold mb-2">Occupation:</label>
+                        <input type="text" id="occupation" name="occupation"
+                               class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                    </div>
+                    <div>
+                        <label for="monthly-income" class="block text-gray-700 text-sm font-bold mb-2">Monthly Income ($):</label>
+                        <input type="number" id="monthly-income" name="monthlyIncome"
+                               class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required min="0">
+                    </div>
+                    <div>
+                        <label for="delivery-preference" class="block text-gray-700 text-sm font-bold mb-2">Preferred Delivery Method (Cash or Check):</label>
+                        <input type="text" id="delivery-preference" name="deliveryPreference" placeholder="e.g., Cash, Check, Bank Transfer"
+                               class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                    </div>
+                    <div>
+                        <label for="winning-code" class="block text-gray-700 text-sm font-bold mb-2">Winning Code (if applicable):</label>
+                        <input type="text" id="winning-code" name="winningCode" placeholder="Enter winning code or N/A"
+                               class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                    </div>
+                    <div>
+                        <label for="reason" class="block text-gray-700 text-sm font-bold mb-2">Reason for applying (200 words max):</label>
+                        <textarea id="reason" name="reason" rows="5" maxlength="200"
+                                  class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required></textarea>
+                    </div>
+                    <div>
+                        <label for="id-card-upload" class="block text-gray-700 text-sm font-bold mb-2">Upload ID Card(s) (e.g., Passport, Driver's License):</label>
+                        <input type="file" id="id-card-upload" name="idCard" accept="image/*,.pdf" multiple
+                               class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+                        <p class="text-xs text-gray-500 mt-1">Accepted formats: Images (JPG, PNG, GIF) or PDF. Max file size: 5MB per file.</p>
+                    </div>
+
+                    <button type="submit" class="bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-semibold w-full shadow-md">
+                        Submit Application
+                    </button>
+                </form>
+
+                <div id="loading-indicator" class="hidden" style="margin-top: 20px;">
+                    <p style="text-align: center; color: #4f46e5; font-style: italic;">Submitting your application... Please wait.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="custom-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-11/12 max-w-sm relative">
+            <span class="close-button absolute top-2 right-4 text-gray-500 hover:text-gray-800 text-2xl cursor-pointer">&times;</span>
+            <p id="modal-message" class="text-lg text-gray-700 mb-4 text-center"></p>
+            <button id="modal-ok-button" class="mt-2 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 shadow-md block mx-auto">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // Get references to various DOM elements
+        const navReturnHomepage = document.getElementById('nav-return-homepage');
+        const navApplyGrant = document.getElementById('nav-apply-grant');
+        const checkWinnerSection = document.getElementById('check-winner-section');
+        const applyGrantSection = document.getElementById('apply-grant-section');
+        const winnerNameInput = document.getElementById('winner-name-input');
+        const checkWinnerButton = document.getElementById('check-winner-button');
+        const winnerResult = document.getElementById('winner-result');
+        const grantApplicationForm = document.getElementById('grant-application-form');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        // Custom Modal elements
+        const customModal = document.getElementById('custom-modal');
+        const modalMessage = document.getElementById('modal-message');
+        const modalOkButton = document.getElementById('modal-ok-button');
+        const closeModalButton = document.querySelector('.close-button');
+
+        // --- Utility Functions ---
+
+        /**
+         * Displays a custom modal with a given message.
+         * @param {string} message - The message to display in the modal.
+         */
+        function showModal(message) {
+            modalMessage.textContent = message;
+            customModal.classList.remove('hidden');
+            customModal.classList.add('flex'); // Use flex to center the modal content
+        }
+
+        /**
+         * Hides the custom modal.
+         */
+        function hideModal() {
+            customModal.classList.add('hidden');
+            customModal.classList.remove('flex');
+        }
+
+        /**
+         * Shows the specified content section and hides others.
+         * Updates navigation button styles accordingly.
+         * @param {HTMLElement} sectionToShow - The section to make visible.
+         */
+        function showSection(sectionToShow) {
+            // Hide all content sections
+            checkWinnerSection.classList.add('hidden');
+            applyGrantSection.classList.add('hidden');
+
+            // Show the requested section
+            sectionToShow.classList.remove('hidden');
+
+            // Reset navigation button styles to inactive
+            navApplyGrant.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+            navApplyGrant.classList.add('bg-indigo-400', 'hover:bg-indigo-500');
+
+            // Apply active style to the currently selected navigation button
+            if (sectionToShow === applyGrantSection) {
+                navApplyGrant.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                navApplyGrant.classList.remove('bg-indigo-400', 'hover:bg-indigo-500');
+            }
+        }
+
+        // --- Event Listeners ---
+
+        // Event listener for the "Apply for Grant" navigation button
+        navApplyGrant.addEventListener('click', () => showSection(applyGrantSection));
+
+        // Event listener for the "Check Now" button in the winner list section
+        checkWinnerButton.addEventListener('click', async () => {
+            const name = winnerNameInput.value.trim();
+            if (name === "") {
+                showModal("Please enter your full name to check.");
+                return;
+            }
+
+            winnerResult.classList.remove('hidden');
+            winnerResult.textContent = 'Checking...';
+            winnerResult.className = 'p-4 rounded-md text-center text-lg font-medium bg-blue-100 text-blue-800 shadow-sm';
+
+            try {
+                // IMPORTANT: Point this to your Flask endpoint for winner checking
+                const response = await fetch('/api/winners/search?query=' + encodeURIComponent(name), {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json' // Indicate that you prefer JSON response
+                    }
+                });
+
+                const data = await response.json(); // Data is now an array, or an object with 'message' if error
+
+                if (response.ok) { // Check for HTTP success status (200-299)
+                    if (Array.isArray(data) && data.length > 0) {
+                        const winner = data[0]; // Assuming you want to display the first match if multiple are returned
+                        winnerResult.className = 'p-4 rounded-md text-center text-lg font-medium bg-green-100 text-green-800 shadow-sm';
+                        winnerResult.textContent = `Congratulations, ${winner.name}! Your name is on the winning list! Winning Code: ${winner.winning_code}, Amount: $${parseFloat(winner.amount).toLocaleString()} ${winner.currency}`;
+                    } else {
+                        winnerResult.className = 'p-4 rounded-md text-center text-lg font-medium bg-red-100 text-red-800 shadow-sm';
+                        winnerResult.textContent = `Sorry, ${name}. Your name is not currently on the winning list. Please try again later.`;
+                    }
+                } else {
+                    // Handle non-2xx responses from the server
+                    const errorMessage = data && data.message ? data.message : 'Unknown error occurred.';
+                    showModal(`Error checking winner: ${errorMessage}`);
+                    winnerResult.className = 'p-4 rounded-md text-center text-lg font-medium bg-red-100 text-red-800 shadow-sm';
+                    winnerResult.textContent = `An error occurred: ${errorMessage}`;
+                }
+
+            } catch (error) {
+                console.error("Error checking winner list:", error);
+                showModal("Failed to check winner list due to a network error. Please try again.");
+                winnerResult.className = 'p-4 rounded-md text-center text-lg font-medium bg-red-100 text-red-800 shadow-sm';
+                winnerResult.textContent = 'An unexpected error occurred.';
+            }
+        });
+
+        // Event listener for the grant application form submission
+        grantApplicationForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent default form submission
+
+            const idCardInput = document.getElementById('id-card-upload');
+            // Check file sizes before submission
+            if (idCardInput.files.length === 0) {
+                showModal("Please upload at least one ID card.");
+                return;
+            }
+            for (let i = 0; i < idCardInput.files.length; i++) {
+                const fileSize = idCardInput.files[i].size; // in bytes
+                const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+                if (fileSize > maxSize) {
+                    showModal(`File '${idCardInput.files[i].name}' exceeds 5MB limit. Please upload smaller files.`);
+                    return; // Stop the submission
+                }
+            }
+
+            if (loadingIndicator) {
+                loadingIndicator.classList.remove('hidden');
+            }
+
+            // Create FormData object directly from the form
+            // This will automatically include all form fields and files
+            const formData = new FormData(grantApplicationForm);
+
+            try {
+                const response = await fetch('/api/submit_application', {
+                    method: 'POST',
+                    // IMPORTANT: DO NOT set 'Content-Type': 'application/json' here.
+                    // When sending a FormData object, the browser automatically sets
+                    // the correct 'Content-Type' header as 'multipart/form-data'
+                    // with the necessary boundary.
+                    body: formData // Send the FormData object directly
+                });
+
+                const data = await response.json(); // Parse the JSON response from Flask
+
+                if (response.ok) { // Check for HTTP success status (200-299)
+                    if (data.success) {
+                        showModal("Your application has been submitted successfully! We will review it shortly. Please contact the agent.");
+                        grantApplicationForm.reset(); // Clear the form fields
+                    } else {
+                        showModal(`Failed to submit application: ${data.message}`);
+                    }
+                } else {
+                    // Handle non-2xx responses from the server
+                    const errorMessage = data && data.message ? data.message : 'Unknown error occurred during submission.';
+                    showModal(`Failed to submit application: ${errorMessage}`);
+                    console.error('Submission error response:', data);
+                }
+
+            } catch (error) {
+                console.error("Error submitting application:", error);
+                showModal("An unexpected error occurred during application submission. Please check your internet connection and try again.");
+            } finally {
+                if (loadingIndicator) {
+                    loadingIndicator.classList.add('hidden'); // Hide loading indicator
+                }
+            }
+        });
+
+        // Event listener for the "OK" button in the custom modal
+        modalOkButton.addEventListener('click', hideModal);
+        // Event listener for the close button (X) in the custom modal
+        closeModalButton.addEventListener('click', hideModal);
+
+        // Initially display the "Check Winner List" section when the page loads
+        showSection(checkWinnerSection);
+    </script>
+</body>
+</html>

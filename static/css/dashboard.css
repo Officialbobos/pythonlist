@@ -1,0 +1,517 @@
+/* dashboard.css */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f2f5;
+    /* Ensure body allows content to fill height and prevents scroll issues */
+    display: flex; /* Helps with fixed sidebar and main content flex */
+    min-height: 100vh; /* Ensures body takes full viewport height */
+    overflow-x: hidden; /* Prevent horizontal scroll when sidebar slides out */
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #2d3748; /* Darker gray for sidebar */
+    color: #e2e8f0;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: fixed; /* Fixed sidebar */
+    top: 0;
+    left: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.1); /* Subtle separator */
+    z-index: 1000; /* Ensure sidebar is above main content */
+    transition: transform 0.3s ease-in-out; /* Smooth transition for hiding/showing */
+}
+
+/* Class to hide the sidebar */
+.sidebar.hidden-sidebar {
+    transform: translateX(-250px); /* Move sidebar entirely off-screen to the left */
+}
+
+/* Class to show the sidebar (used by JS on mobile) */
+.sidebar.visible {
+    transform: translateX(0); /* Move sidebar into view */
+}
+
+.sidebar-item {
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 0.5rem; /* Slightly rounded corners for items */
+    margin: 0.25rem 1rem; /* Add some margin for visual separation */
+}
+
+.sidebar-item:hover, .sidebar-item.active {
+    background-color: #4a5568; /* Slightly lighter gray on hover/active */
+    color: #a0aec0; /* Lighter text on hover/active */
+    box-shadow: inset 3px 0 0 #4299e1; /* Blue accent on active/hover */
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 250px; /* Offset for sidebar */
+    padding: 2rem;
+    flex-grow: 1;
+    width: calc(100% - 250px); /* Adjust width for main content */
+    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* Adjust main content when sidebar is hidden */
+.main-content.sidebar-hidden {
+    margin-left: 0; /* No offset when sidebar is hidden */
+    width: 100%; /* Take full width */
+}
+
+.logout-btn {
+    margin-top: auto; /* Pushes the logout button to the bottom */
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+/* Loading overlay styles */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+}
+
+.loading-overlay.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #2563eb;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Advanced Form Styling */
+.container.mx-auto.p-4 {
+    /* Main content padding is already applied by .main-content */
+}
+
+.bg-white.p-8.rounded-lg.shadow-md {
+    /* This targets the content container which wraps the form/table */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Deeper shadow */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Form Container Enhancements (id="winnerForm") */
+#winnerForm {
+    padding: 1.5rem; /* Add internal padding */
+    border-radius: 0.75rem; /* More rounded corners */
+    background-color: #ffffff; /* Explicitly white background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Inner shadow for the form itself */
+}
+
+/* Input Fields (text, number, url, file, select, textarea) */
+#winnerForm input[type="text"],
+#winnerForm input[type="number"],
+#winnerForm input[type="url"],
+#winnerForm input[type="date"],
+#winnerForm select,
+#winnerForm textarea {
+    border: 1px solid #cbd5e0; /* Default border color */
+    padding: 0.75rem 1rem; /* More vertical padding */
+    border-radius: 0.5rem; /* Consistent rounded corners */
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04); /* Subtle inner shadow */
+    transition: all 0.2s ease-in-out;
+    background-color: #f8fafc; /* Light background for inputs */
+    color: #2d3748; /* Darker text color for inputs */
+}
+
+#winnerForm input[type="text"]:focus,
+#winnerForm input[type="number"]:focus,
+#winnerForm input[type="url"]:focus,
+#winnerForm input[type="date"]:focus,
+#winnerForm select:focus,
+#winnerForm textarea:focus {
+    border-color: #4299e1; /* Blue border on focus */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* Soft blue glow on focus */
+    background-color: #ffffff; /* White background on focus */
+}
+
+/* File Input specific adjustments */
+#winnerForm input[type="file"] {
+    cursor: pointer;
+}
+#winnerForm input[type="file"]::file-selector-button {
+    background-color: #4299e1; /* Blue for the file select button */
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+#winnerForm input[type="file"]::file-selector-button:hover {
+    background-color: #2b6cb0; /* Darker blue on hover */
+}
+
+/* Checkbox (Remove Current Image) */
+#remove_image {
+    width: 1.25rem;
+    height: 1.25rem;
+    vertical-align: middle;
+    cursor: pointer;
+    /* Custom checkmark can be added here if not relying on browser default */
+}
+
+/* Buttons */
+#winnerForm button[type="submit"],
+#winnerForm .flex-1.text-center.justify-center.py-3.px-4,
+.inline-block.px-6.py-3 { /* Added a general rule for the new buttons */
+    padding: 0.875rem 1.5rem; /* More padding */
+    font-size: 1.125rem; /* Slightly larger text */
+    font-weight: 600; /* Semi-bold */
+    border-radius: 0.75rem; /* More rounded */
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Submit Button (Green) */
+#winnerForm button[type="submit"] {
+    background: linear-gradient(to right, #48bb78, #38a169); /* Green gradient */
+    border: none;
+    color: white; /* Ensure text color is white for submit button */
+}
+#winnerForm button[type="submit"]:hover {
+    background: linear-gradient(to right, #38a169, #2f855a); /* Darker green gradient on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* More prominent shadow on hover */
+    transform: translateY(-2px); /* Lift effect on hover */
+}
+
+/* Cancel Button (Gray/White) */
+#winnerForm .flex-1.text-center.justify-center.py-3.px-4,
+.inline-block.px-6.py-3.bg-gray-300 { /* Targeting the cancel link and the new cancel button specifically */
+    background-color: #edf2f7; /* Lighter gray background */
+    color: #4a5568; /* Darker text */
+    border: 1px solid #cbd5e0;
+}
+#winnerForm .flex-1.text-center.justify-center.py-3.px-4:hover,
+.inline-block.px-6.py-3.bg-gray-300:hover {
+    background-color: #e2e8f0; /* Darker gray on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+/* Message Container - Refined */
+.dashboard-message-box { /* Using a semantic class name */
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    display: none; /* Hidden by default, shown by JS */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Ensure the message box is fully visible when JS sets display: block */
+.dashboard-message-box[style*="display: block"] {
+    opacity: 1;
+}
+
+.dashboard-message-box.info {
+    background-color: #e0f2f7; /* Light blue */
+    color: #2c5282; /* Dark blue text */
+    border: 1px solid #90cdf4;
+}
+
+.dashboard-message-box.success {
+    background-color: #e6fffa; /* Light green */
+    color: #276749; /* Dark green text */
+    border: 1px solid #9ae6b4;
+}
+
+.dashboard-message-box.error {
+    background-color: #ffe8e8; /* Light red */
+    color: #9b2c2c; /* Dark red text */
+    border: 1px solid #feb2b2;
+}
+
+
+/* Image Display in Form */
+#currentImageDisplay img {
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Table Styling (View Winners) - Enhancements */
+.overflow-x-auto.bg-white.rounded-lg.shadow table {
+    border-collapse: separate; /* Allows border-radius on cells (though not directly applied here) */
+    border-spacing: 0;
+    width: 100%; /* Ensure table takes full width of its container */
+}
+
+.overflow-x-auto.bg-white.rounded-lg.shadow thead th {
+    background-color: #f8fafc; /* Lighter header background */
+    color: #2d3748; /* Darker text for headers */
+    border-bottom: 2px solid #e2e8f0;
+    text-transform: capitalize; /* Make headers less "shouty" */
+    padding: 1rem 1.5rem; /* Add padding to table headers */
+    text-align: left; /* Ensure text is left-aligned in headers */
+}
+
+.overflow-x-auto.bg-white.rounded-lg.shadow tbody td {
+    border-bottom: 1px solid #edf2f7; /* Lighter row separator */
+    padding: 1rem 1.5rem; /* Add padding to table cells */
+    vertical-align: middle; /* Center content vertically */
+}
+
+.overflow-x-auto.bg-white.rounded-lg.shadow tbody tr:last-child td {
+    border-bottom: none; /* No border on the last row */
+}
+
+.overflow-x-auto.bg-white.rounded-lg.shadow tbody tr:hover {
+    background-color: #f0f2f5; /* Subtle row highlight on hover */
+    transition: background-color 0.15s ease-in-out;
+}
+
+/* Status Badges - Refined using semantic class names */
+.status-badge { /* A general class for all status badges */
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px; /* Fully rounded pills */
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1; /* For consistent vertical alignment */
+    text-align: center;
+    white-space: nowrap; /* Prevent wrapping */
+    vertical-align: baseline; /* Align with text */
+}
+
+/* Specific status background colors with corresponding text colors for better contrast */
+.status-badge.delivered { background-color: #9ae6b4; color: #276749; } /* Green */
+.status-badge.claimed { background-color: #90cdf4; color: #2c5282; } /* Blue */
+.status-badge.not-yet-claimed, .status-badge.rejected { background-color: #feb2b2; color: #9b2c2c; } /* Red */
+.status-badge.processing { background-color: #faf089; color: #975a16; } /* Yellow */
+.status-badge.pending { background-color: #e2e8f0; color: #4a5568; } /* Gray */
+
+
+/* Action Buttons in Table */
+.text-blue-600.hover\:text-blue-900,
+.text-red-600.hover\:text-red-900 {
+    transition: color 0.2s ease-in-out;
+    cursor: pointer; /* Indicate clickable */
+}
+
+/* Mobile Toggle Button (Desktop: Hidden by default, Mobile: Visible and fixed) */
+#sidebarToggle {
+    display: none; /* Hidden on desktop by default */
+    /* Mobile styles will override this */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        /* On mobile, body can be `block` if main-content is full width and sidebar is fixed/off-canvas */
+        display: block;
+    }
+    .sidebar {
+        width: 250px; /* Keep consistent width for mobile hidden/shown */
+        /* Make it slide off-screen by default on small screens */
+        transform: translateX(-250px);
+        left: 0; /* Ensure it starts from the left */
+        top: 0;
+        height: 100vh; /* Full height */
+        position: fixed; /* Still fixed on mobile, but off-screen */
+        z-index: 1000;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.2); /* Add shadow when revealed */
+    }
+
+    .sidebar.visible { /* Class added by JS to show sidebar */
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0; /* Main content always starts from 0 on mobile */
+        width: 100%;
+        padding: 1rem; /* Slightly less padding on mobile for tighter layout */
+    }
+
+    /* Toggle button becomes visible and fixed on smaller screens */
+    #sidebarToggle {
+        display: block; /* Show the toggle button */
+        position: fixed; /* Position toggle button */
+        top: 1rem; /* Adjust as needed */
+        left: 1rem; /* Adjust as needed */
+        z-index: 1001; /* Above sidebar and overlay */
+        background-color: #4299e1; /* Blue background */
+        color: white;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    #sidebarToggle:hover {
+        background-color: #2b6cb0;
+    }
+
+    /* Overlay when sidebar is open on mobile */
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999; /* Below sidebar, above main content */
+        display: none; /* Hidden by default */
+        transition: opacity 0.3s ease-in-out;
+        opacity: 0;
+    }
+    .overlay.visible {
+        display: block; /* Shown when sidebar is active */
+        opacity: 1;
+    }
+
+    .sidebar-item {
+        margin: 0.5rem 0.5rem;
+        padding: 0.5rem 1rem;
+        justify-content: flex-start; /* Align items to start on mobile */
+    }
+    .sidebar nav ul {
+        display: block; /* Stack items vertically on mobile */
+    }
+    .logout-btn {
+        margin-top: 1rem; /* Adjust margin for mobile */
+    }
+
+    /* Adjust form spacing and input sizes on smaller screens for better touch usability */
+    #winnerForm .form-group { /* Assuming you use a class like form-group for div wrappers around labels/inputs */
+        margin-bottom: 1rem;
+    }
+    #winnerForm input[type="text"],
+    #winnerForm input[type="number"],
+    #winnerForm input[type="url"],
+    #winnerForm input[type="date"],
+    #winnerForm select,
+    #winnerForm textarea {
+        padding: 0.625rem 0.875rem; /* Slightly less padding */
+    }
+    #winnerForm button[type="submit"],
+    #winnerForm .flex-1.text-center.justify-center.py-3.px-4,
+    .inline-block.px-6.py-3 {
+        padding: 0.75rem 1rem; /* Slightly less padding */
+        font-size: 1rem; /* Slightly smaller font */
+    }
+
+    /* Adjust table fonts/padding on mobile for better readability */
+    .overflow-x-auto.bg-white.rounded-lg.shadow thead th,
+    .overflow-x-auto.bg-white.rounded-lg.shadow tbody td {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Custom Confirmation Modal Styling (if used by JS) */
+#confirmOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* Higher than sidebar/overlay */
+    visibility: hidden; /* Hidden by default */
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+/* When JS sets display:flex for the overlay */
+#confirmOverlay[style*="display: flex"] {
+    visibility: visible;
+    opacity: 1;
+}
+
+.confirm-box {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    transform: scale(0.95); /* Start slightly smaller for transition */
+    transition: transform 0.3s ease-out;
+}
+
+/* Scale up the modal when it becomes visible */
+#confirmOverlay[style*="display: flex"] .confirm-box {
+    transform: scale(1);
+}
+
+.confirm-box p {
+    font-size: 1.125rem;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+}
+
+.confirm-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.confirm-buttons button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+#confirmYes {
+    background-color: #e53e3e; /* Red for Yes */
+    color: white;
+    border: none;
+}
+#confirmYes:hover {
+    background-color: #c53030;
+    transform: translateY(-1px);
+}
+
+#confirmNo {
+    background-color: #edf2f7; /* Light gray for No */
+    color: #4a5568;
+    border: 1px solid #cbd5e0;
+}
+#confirmNo:hover {
+    background-color: #e2e8f0;
+    transform: translateY(-1px);
+}

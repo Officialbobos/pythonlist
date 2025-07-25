@@ -1,0 +1,157 @@
+<div class="container mx-auto p-4">
+    <h3 class="text-2xl font-semibold text-gray-800 mb-6">
+        {# This logic will be passed from the Python backend #}
+        {% if winner_id and winner_id != '0' %}
+            Edit Winner Details
+        {% else %}
+            Add New Winner
+        {% endif %}
+    </h3>
+
+    {# This message container will be used by dashboard.js to show success/error messages #}
+    <div id="dashboardMessageBox" class="dashboard-message-box"></div>
+
+    <form id="winnerForm" method="POST" enctype="multipart/form-data" class="space-y-6"
+          data-winner-id="{{ winner_id or '0' }}"> {# Pass winner_id to JS for form handling #}
+
+        {# Hidden input for winner ID, used by JavaScript #}
+        <input type="hidden" name="id" value="{{ winner_id or '0' }}">
+        {# Hidden input for current image path, useful if you need to know it on the backend for deletion #}
+        <input type="hidden" name="current_image_path" value="{{ image_path or '' }}">
+
+        <div class="form-group">
+            <label for="winner_name" class="block text-sm font-medium text-gray-700 mb-2">Winner Name</label>
+            <input type="text" id="winner_name" name="winner_name" value="{{ winner_name or '' }}" required
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+        </div>
+
+        <div class="form-group">
+            <label for="winner_location" class="block text-sm font-medium text-gray-700 mb-2">Winner Location (Optional)</label>
+            <input type="text" id="winner_location" name="winner_location" value="{{ winner_location or '' }}"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+        </div>
+
+        <div class="form-group">
+            <label for="winning_code" class="block text-sm font-medium text-gray-700 mb-2">Winning Code</label>
+            <input type="text" id="winning_code" name="winning_code" value="{{ winning_code or '' }}" required
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+        </div>
+
+        <div class="form-group">
+            <label for="winner_fblink" class="block text-sm font-medium text-gray-700 mb-2">Winner Facebook Link (Optional)</label>
+            <input type="url" id="winner_fblink" name="winner_fblink" value="{{ winner_fblink or '' }}"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+        </div>
+
+        <div class="form-group">
+            <label for="winner_status" class="block text-sm font-medium text-gray-700 mb-2">Winner Status</label>
+            <select id="winner_status" name="winner_status"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                <option value="pending" {% if winner_status == 'pending' %}selected{% endif %}>Pending</option>
+                <option value="not yet claimed" {% if winner_status == 'not yet claimed' %}selected{% endif %}>Not Yet Claimed</option>
+                <option value="claimed" {% if winner_status == 'claimed' %}selected{% endif %}>Claimed</option>
+                <option value="processing" {% if winner_status == 'processing' %}selected{% endif %}>Processing</option>
+                <option value="rejected" {% if winner_status == 'rejected' %}selected{% endif %}>Rejected</option>
+                <option value="delivered" {% if winner_status == 'delivered' %}selected{% endif %}>Delivered</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="winning_amount" class="block text-sm font-medium text-gray-700 mb-2">Winning Amount</label>
+            <input type="number" id="winning_amount" name="winning_amount" step="0.01" value="{{ winning_amount or '' }}" required
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+        </div>
+
+        <div class="form-group">
+            <label for="winner_paymentfee" class="block text-sm font-medium text-gray-700 mb-2">Payment Fee</label>
+            <input type="number" id="winner_paymentfee" name="winner_paymentfee" step="0.01" value="{{ winner_paymentfee or '' }}" required
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+        </div>
+
+        <div class="form-group">
+            <label for="currency" class="block text-sm font-medium text-gray-700 mb-2">Currency</label>
+            <select id="currency" name="currency"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                <option value="USD" {% if currency == 'USD' %}selected{% endif %}>USD</option>
+                <option value="EUR" {% if currency == 'EUR' %}selected{% endif %}>EUR</option>
+                <option value="GBP" {% if currency == 'GBP' %}selected{% endif %}>GBP</option>
+                <option value="AUD" {% if currency == 'AUD' %}selected{% endif %}>AUD</option>
+                <option value="CNY" {% if currency == 'CNY' %}selected{% endif %}>CNY</option>
+                <option value="CAD" {% if currency == 'CAD' %}selected{% endif %}>CAD</option>
+                <option value="NZD" {% if currency == 'NZD' %}selected{% endif %}>NZD</option>
+                <option value="CHF" {% if currency == 'CHF' %}selected{% endif %}>SWISS FRANC</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="winner_image" class="block text-sm font-medium text-gray-700 mb-2">Winner Image (Optional)</label>
+            <input type="file" id="winner_image" name="winner_image" accept="image/*"
+                    class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+            <div class="image-preview-container">
+                <img id="winnerImagePreview" src="#" alt="Image Preview" class="image-preview" style="display: none;">
+            </div>
+        </div>
+
+        {% if image_path %} {# Only display if an image path exists #}
+            <div id="currentImageDisplay" class="mt-4">
+                <p class="block text-sm font-medium text-gray-700">Current Image:</p>
+                <div class="flex items-center space-x-4 mt-2">
+                    <img src="{{ url_for('static', filename='uploads/' + image_path) }}" alt="Current Winner Image" class="w-32 h-32 object-cover rounded-md border border-gray-200">
+                    <label for="remove_image" class="inline-flex items-center text-red-600">
+                        <input type="checkbox" id="remove_image" name="remove_image" value="1" class="rounded border-gray-300 text-red-600 shadow-sm focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50">
+                        <span class="ml-2 text-sm font-medium">Remove Current Image</span>
+                    </label>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="flex space-x-4">
+            <button type="submit"
+                    class="flex-1 justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                {% if winner_id and winner_id != '0' %}
+                    Update Winner
+                {% else %}
+                    Add Winner
+                {% endif %}
+            </button>
+            {# Cancel button for edit mode #}
+            {% if winner_id and winner_id != '0' %}
+                <button type="button" class="flex-1 text-center justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm text-lg font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                        onclick="loadContent(document.querySelector('#nav-manage-winners').dataset.contentUrl);">
+                    Cancel Edit
+                </button>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<script>
+    // This script runs after the content is loaded into the DOM
+    document.addEventListener('DOMContentLoaded', function() {
+        const winnerForm = document.getElementById('winnerForm');
+        const winnerImageInput = document.getElementById('winner_image');
+        const winnerImagePreview = document.getElementById('winnerImagePreview');
+
+        // Image preview logic
+        if (winnerImageInput && winnerImagePreview) {
+            winnerImageInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        winnerImagePreview.src = e.target.result;
+                        winnerImagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                } else {
+                    winnerImagePreview.src = '';
+                    winnerImagePreview.style.display = 'none';
+                }
+            });
+        }
+
+        // Form submission logic (already handled by dashboard.js's attachContentEventListeners)
+        // This local script block is primarily for DOM-specific interactions like image preview.
+        // The main form submission listener is in dashboard.js to ensure it's always attached
+        // when this content is dynamically loaded.
+    });
+</script>

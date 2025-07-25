@@ -1,0 +1,6 @@
+Flask
+pymongo
+python-dotenv
+Werkzeug
+bcrypt
+Pillow # If you plan to do image processing
