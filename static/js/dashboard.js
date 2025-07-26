@@ -73,6 +73,38 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     };
 
+    // NEW: Make deleteWinner globally available
+    window.deleteWinner = async function(winnerId, winnerName) {
+        const confirmed = await window.showCustomConfirm(`Are you sure you want to delete winner "${winnerName}"? This action cannot be undone.`);
+        if (confirmed) {
+            try {
+                const response = await fetch(`/api/admin/winners/${winnerId}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    window.displayDashboardMessage(data.message, 'success');
+                    // Reload the 'Manage Winners' content after successful deletion
+                    const manageWinnersLink = document.querySelector('#nav-manage-winners');
+                    if (manageWinnersLink && manageWinnersLink.dataset.contentUrl) {
+                        window.loadContent(manageWinnersLink.dataset.contentUrl);
+                    }
+                } else {
+                    window.displayDashboardMessage(data.message || 'Failed to delete winner.', 'error');
+                }
+            } catch (error) {
+                console.error('Delete winner error:', error);
+                window.displayDashboardMessage('Network error or server issue during deletion.', 'error');
+            }
+        }
+    };
+
+    // NEW: Make editWinner globally available
+    window.editWinner = function(winnerId) {
+        // This function should load the winner form, pre-filling it with data for the given winnerId
+        window.loadContent(`/winner_form_content?winner_id=${winnerId}`);
+    };
+
     // Helper function to format currency
     function formatCurrency(amount, currency = 'USD') {
         try {
@@ -252,8 +284,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 winnerImagePreview.style.display = 'block';
                 winnerImagePreview.dataset.currentImageUrl = winnerImagePreview.src; // Store for reverting
             } else if (winnerImagePreview) {
-                 winnerImagePreview.style.display = 'none';
-                 winnerImagePreview.src = '';
+                winnerImagePreview.style.display = 'none';
+                winnerImagePreview.src = '';
             }
         }
 
@@ -409,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
             else if (event.target.classList.contains('approve-application-btn')) {
                 const button = event.target;
                 const applicationId = button.dataset.applicationId;
-                 const confirmed = await window.showCustomConfirm("Are you sure you want to APPROVE this application?");
+                const confirmed = await window.showCustomConfirm("Are you sure you want to APPROVE this application?");
                 if (confirmed) {
                     try {
                         const response = await fetch(`/admin/applications/${applicationId}/approve`, { method: 'POST' });
@@ -446,7 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             }
-             else if (event.target.classList.contains('view-application-details-btn')) {
+            else if (event.target.classList.contains('view-application-details-btn')) {
                 const applicationId = event.target.dataset.applicationId;
                 if (applicationId) {
                     loadContent(`/admin/applications/${applicationId}/view`);
@@ -456,7 +488,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
 
     // --- Sidebar Navigation Logic ---
     sidebarNavLinks.forEach(link => {
