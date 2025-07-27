@@ -26,7 +26,7 @@ body {
     transition: transform 0.3s ease-in-out; /* Smooth transition for hiding/showing */
 }
 
-/* Class to hide the sidebar */
+/* Class to hide the sidebar (default on mobile) */
 .sidebar.hidden-sidebar {
     transform: translateX(-250px); /* Move sidebar entirely off-screen to the left */
 }
@@ -270,6 +270,7 @@ body {
     border-collapse: separate; /* Allows border-radius on cells (though not directly applied here) */
     border-spacing: 0;
     width: 100%; /* Ensure table takes full width of its container */
+    min-width: 600px; /* IMPORTANT: Ensures table has a minimum width to enable horizontal scroll */
 }
 
 .overflow-x-auto.bg-white.rounded-lg.shadow thead th {
@@ -335,6 +336,8 @@ body {
     body {
         /* On mobile, body can be `block` if main-content is full width and sidebar is fixed/off-canvas */
         display: block;
+        /* Ensure touch scrolling works by setting overflow-y if needed */
+        overflow-y: auto;
     }
     .sidebar {
         width: 250px; /* Keep consistent width for mobile hidden/shown */
@@ -356,6 +359,9 @@ body {
         margin-left: 0; /* Main content always starts from 0 on mobile */
         width: 100%;
         padding: 1rem; /* Slightly less padding on mobile for tighter layout */
+        /* Allow main content to scroll vertically if needed */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
     }
 
     /* Toggle button becomes visible and fixed on smaller screens */
@@ -434,6 +440,13 @@ body {
         padding: 0.75rem 1rem;
         font-size: 0.875rem;
     }
+
+    /* Make tables horizontally scrollable on small screens */
+    .overflow-x-auto {
+        overflow-x: auto; /* Enable horizontal scrolling */
+        -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
+    }
+
 }
 
 /* Custom Confirmation Modal Styling (if used by JS) */
