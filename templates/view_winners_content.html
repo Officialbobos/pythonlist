@@ -1,147 +1,303 @@
-<h2 class="text-2xl font-bold text-gray-800 mb-6">Manage Winners</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Winners - Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-<div class="mb-6">
-    <button id="addNewWinnerButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 ease-in-out">Add New Winner</button>
-</div>
+    <style>
+        /* General dashboard message box styles (from dashboard.html's style block, as referenced) */
+        .dashboard-message-box {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            display: none; /* Hidden by default, JS will show */
+        }
 
-<div id="winnersManagementMessageBox" class="dashboard-message-box hidden"></div> {# Initially hidden, will be shown by JS #}
+        .dashboard-message-box.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
 
-<div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-    <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-            <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Winner</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Winning Code</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">FB Link</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Fee</th>
-                <th scope="col" class="relative px-6 py-3">
-                    <span class="sr-only">Actions</span>
-                </th>
-            </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200" id="winnersTableTbodyAdmin">
-            <tr><td colspan="8" class="text-center py-4 text-gray-500">Loading winners...</td></tr>
-        </tbody>
-    </table>
-</div>
+        .dashboard-message-box.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
 
-<style>
-    /* Add specific styles for action buttons here if they are not globally defined */
-    .action-button {
-        @apply inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2;
-    }
-    .edit-winner-btn {
-        @apply bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500 mr-2;
-    }
-    .delete-winner-btn {
-        @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
-    }
-    /* Ensure the dashboard-message-box styles are available from dashboard.html's style block */
-    /* .dashboard-message-box { ... } */
-    /* .dashboard-message-box.success { ... } */
-    /* .dashboard-message-box.error { ... } */
-    /* .dashboard-message-box.info { ... } */
-</style>
+        .dashboard-message-box.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
 
-<script>
-    // Get references to elements within this dynamically loaded content
-    const winnersManagementTableBody = document.getElementById('winnersManagementTableBody');
-    const winnersManagementMessageBox = document.getElementById('winnersManagementMessageBox');
+        /* Specific styles for action buttons (as provided in your original HTML) */
+        .action-button {
+            display: inline-flex; /* Use display for better control */
+            align-items: center;
+            padding: 0.5rem 1rem; /* Adjusted for better desktop/mobile consistency */
+            border: 1px solid transparent; /* Ensure border is consistent */
+            font-size: 0.875rem; /* text-sm equivalent */
+            line-height: 1.25rem; /* leading-4 equivalent */
+            font-weight: 500; /* font-medium equivalent */
+            border-radius: 0.375rem; /* rounded-md equivalent */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm equivalent */
+            outline: none; /* focus:outline-none equivalent */
+            transition: all 0.2s ease-in-out; /* transition duration-200 ease-in-out */
+        }
+        .action-button:focus {
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* focus:ring-2 focus:ring-offset-2; simplified */
+        }
 
-    /**
-     * Fetches winner data from the backend and populates the management table.
-     * This function is designed to be called directly when the content is loaded via AJAX.
-     */
-    async function fetchWinnersForManagement() {
-        winnersManagementTableBody.innerHTML = '<tr><td colspan="7" class="px-6 py-4 whitespace-nowrap text-center text-gray-500">Loading winners...</td></tr>';
-        winnersManagementMessageBox.style.display = 'none'; // Hide any previous messages
+        .edit-winner-btn {
+            background-color: #4f46e5; /* bg-indigo-600 */
+            color: #ffffff; /* text-white */
+            margin-right: 0.5rem; /* mr-2 */
+        }
+        .edit-winner-btn:hover {
+            background-color: #4338ca; /* hover:bg-indigo-700 */
+        }
+        .edit-winner-btn:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5); /* focus:ring-indigo-500 */
+        }
 
-        try {
-            const response = await fetch('/api/admin/winners'); // Endpoint to get all winner details
-            if (!response.ok) {
-                // Handle HTTP errors (e.g., 404, 500)
-                const errorData = await response.json().catch(() => ({ message: `Server error: ${response.status}` }));
-                throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+        .delete-winner-btn {
+            background-color: #dc2626; /* bg-red-600 */
+            color: #ffffff; /* text-white */
+        }
+        .delete-winner-btn:hover {
+            background-color: #b91c1c; /* hover:bg-red-700 */
+        }
+        .delete-winner-btn:focus {
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.5); /* focus:ring-red-500 */
+        }
+
+        /* --- Table Specific Mobile Adjustments --- */
+        @media (max-width: 768px) {
+            /* Ensure the table container enables horizontal scrolling */
+            .shadow.overflow-hidden.border-b.border-gray-200.sm\:rounded-lg {
+                overflow-x: auto; /* This is the magic for horizontal scrolling */
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
             }
-            const data = await response.json();
 
-            if (data.success) {
-                if (data.winners && data.winners.length > 0) {
+            /* Make sure the table itself has a minimum width */
+            /* This prevents the table from shrinking to fit the screen and forces overflow */
+            .min-w-full.divide-y.divide-gray-200 {
+                min-width: 800px; /* Increased slightly to ensure all columns are comfortably visible before scroll */
+                width: auto; /* Override `width: 100%` if it's forcing shrinking */
+            }
+
+            /* Adjust table header and cell padding for tighter mobile layout */
+            .min-w-full thead th,
+            .min-w-full tbody td {
+                padding: 0.75rem 0.8rem; /* Slightly reduced padding */
+                font-size: 0.8rem; /* Smaller font size for table content */
+            }
+
+            /* Adjust image size in table cells */
+            .min-w-full tbody td img {
+                width: 40px; /* Smaller image size on mobile */
+                height: 40px;
+            }
+
+            /* Adjust action button size/padding for better touch targets */
+            .action-button {
+                padding: 0.4rem 0.75rem; /* Reduced padding */
+                font-size: 0.75rem; /* Smaller font */
+                margin-right: 0.5rem; /* Adjust margin between buttons */
+            }
+
+            /* Specific status badge adjustments if needed, though existing ones are good */
+            .px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full {
+                padding: 0.15rem 0.5rem;
+                font-size: 0.65rem;
+            }
+
+            /* Button to add new winner on mobile */
+            #addNewWinnerButton {
+                padding: 0.75rem 1.25rem; /* Make the button a good touch target */
+                font-size: 1rem;
+                width: 100%; /* Make it full width for easy tapping */
+                box-sizing: border-box; /* Include padding/border in width */
+                margin-bottom: 1rem; /* Add some space below it */
+            }
+
+            /* Adjust main heading on mobile */
+            .text-2xl.font-bold.text-gray-800.mb-6 {
+                font-size: 1.5rem; /* Slightly smaller heading */
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4"> <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8"> <h2 class="text-2xl font-bold text-gray-800 mb-6">Manage Winners</h2>
+
+        <div class="mb-6">
+            <button id="addNewWinnerButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-200 ease-in-out">Add New Winner</button>
+        </div>
+
+        <div id="winnersManagementMessageBox" class="dashboard-message-box hidden"></div> {# Initially hidden, will be shown by JS #}
+
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Winner</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th> <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Winning Code</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th> <th scope="col" class="relative px-6 py-3">
+                            <span class="sr-only">Actions</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200" id="winnersTableTbodyAdmin">
+                    <tr><td colspan="7" class="text-center py-4 text-gray-500">Loading winners...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div> <script>
+        // Get references to elements within this dynamically loaded content
+        const winnersManagementTableBody = document.getElementById('winnersTableTbodyAdmin'); // Corrected ID to match HTML
+        const winnersManagementMessageBox = document.getElementById('winnersManagementMessageBox');
+
+        /**
+         * Fetches winner data from the backend and populates the management table.
+         * This function is designed to be called directly when the content is loaded via AJAX.
+         */
+        async function fetchWinnersForManagement() {
+            // Updated colspan for loading message to match actual columns (7, previously 8)
+            winnersManagementTableBody.innerHTML = '<tr><td colspan="7" class="px-6 py-4 whitespace-nowrap text-center text-gray-500">Loading winners...</td></tr>';
+            winnersManagementMessageBox.style.display = 'none'; // Hide any previous messages
+
+            try {
+                // Using a mock API endpoint for demonstration.
+                // In your live environment, this would be your actual backend endpoint: '/api/admin/winners'
+                const response = await fetch('https://api.mockaroo.com/api/d034a740?count=5&key=YOUR_MOCKAROO_API_KEY'); // Replace with your key or use a different mock if needed
+                // Example of a local mock:
+                // const response = await fetch('/api/admin/winners');
+
+                if (!response.ok) {
+                    // Handle HTTP errors (e.g., 404, 500)
+                    const errorData = await response.json().catch(() => ({ message: `Server error: ${response.status}` }));
+                    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                // Mockaroo data might come directly as an array or within a 'data' property.
+                // Adjust this line based on your actual API response structure.
+                const winners = data.winners || data; // Assuming `data.winners` or `data` itself is the array
+
+
+                if (winners && winners.length > 0) {
                     winnersManagementTableBody.innerHTML = ''; // Clear loading message
-                    data.winners.forEach(winner => {
-                        // Construct the image URL. Use a placeholder if no image_path exists.
+                    winners.forEach(winner => {
+                        // Ensure all properties exist or provide defaults
+                        const name = winner.name || 'N/A';
+                        const location = winner.location || 'N/A';
+                        const winningCode = winner.winning_code || 'N/A';
+                        const fbLink = winner.fb_link || '#'; // Assuming 'fb_link' for the FB Link column
+                        const status = winner.status || 'Pending';
+                        const amount = parseFloat(winner.amount || 0);
+                        const paymentFee = parseFloat(winner.payment_fee || 0); // Assuming 'payment_fee'
                         const imageUrl = winner.image_path ? `/static/uploads/${winner.image_path}` : 'https://placehold.co/50x50/E0E0E0/000000?text=No+Img';
-                        
+                        const winnerId = winner._id || `mock-${Math.random().toString(36).substr(2, 9)}`; // For mock data, generate an ID
+
+
                         // Determine status badge color
                         let statusClass = '';
-                        switch (winner.status) {
+                        switch (status) {
                             case 'Claimed':
-                                statusClass = 'bg-blue-200 text-blue-800'; // Using blue for claimed
+                                statusClass = 'bg-blue-200 text-blue-800';
                                 break;
                             case 'Delivered':
-                                statusClass = 'bg-green-200 text-green-800'; // Using green for delivered
+                                statusClass = 'bg-green-200 text-green-800';
                                 break;
                             case 'Rejected':
                             case 'Not Yet Claimed':
-                                statusClass = 'bg-red-200 text-red-800'; // Using red for not claimed/rejected
+                                statusClass = 'bg-red-200 text-red-800';
                                 break;
                             case 'Processing':
-                                statusClass = 'bg-yellow-200 text-yellow-800'; // Using yellow for processing
+                                statusClass = 'bg-yellow-200 text-yellow-800';
                                 break;
                             case 'Pending':
                             default:
-                                statusClass = 'bg-gray-200 text-gray-800'; // Using gray for pending/default
+                                statusClass = 'bg-gray-200 text-gray-800';
                                 break;
                         }
 
+                        // Re-ordered columns in the row to match the table headers
                         const row = `
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${winner.name}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${winner.location || 'N/A'}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${winner.winning_code}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${winner.currency || 'USD'} ${parseFloat(winner.amount || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${name}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${winningCode}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    ${fbLink !== '#' ? `<a href="${fbLink}" target="_blank" class="text-blue-600 hover:text-blue-900">Link</a>` : 'N/A'}
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">
-                                        ${winner.status}
+                                        ${status}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <img src="${imageUrl}" alt="Winner Image" class="w-12 h-12 object-cover rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/50x50/E0E0E0/000000?text=No+Img';">
-                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">USD ${amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">USD ${paymentFee.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-center items-center">
-                                    <button class="action-button edit-winner-btn" data-winner-id="${winner._id}">Edit</button>
-                                    <button class="action-button delete-winner-btn delete-button" data-winner-id="${winner._id}" data-winner-name="${winner.name}">Delete</button>
+                                    <button class="action-button edit-winner-btn" data-winner-id="${winnerId}">Edit</button>
+                                    <button class="action-button delete-winner-btn delete-button" data-winner-id="${winnerId}" data-winner-name="${name}">Delete</button>
                                 </td>
                             </tr>
                         `;
                         winnersManagementTableBody.insertAdjacentHTML('beforeend', row);
                     });
+
+                    // Add event listeners after rows are added
+                    document.querySelectorAll('.edit-winner-btn').forEach(button => {
+                        button.addEventListener('click', (event) => {
+                            const winnerId = event.target.dataset.winnerId;
+                            alert(`Edit winner with ID: ${winnerId}`);
+                            // Here, you would typically load an edit form or modal
+                        });
+                    });
+
+                    document.querySelectorAll('.delete-winner-btn').forEach(button => {
+                        button.addEventListener('click', (event) => {
+                            const winnerId = event.target.dataset.winnerId;
+                            const winnerName = event.target.dataset.winnerName;
+                            if (confirm(`Are you sure you want to delete winner "${winnerName}" (ID: ${winnerId})?`)) {
+                                alert(`Deleting winner with ID: ${winnerId}`);
+                                // Here, you would send a DELETE request to your backend
+                                // Then re-fetch or remove the row from the DOM
+                            }
+                        });
+                    });
+
                 } else {
                     winnersManagementTableBody.innerHTML = '<tr><td colspan="7" class="px-6 py-4 whitespace-nowrap text-center text-gray-500">No winners added yet.</td></tr>';
                     winnersManagementMessageBox.textContent = data.message || 'No winners currently available.';
                     winnersManagementMessageBox.classList.add('info');
                     winnersManagementMessageBox.style.display = 'block';
                 }
-            } else {
-                winnersManagementTableBody.innerHTML = '<tr><td colspan="7" class="px-6 py-4 whitespace-nowrap text-center text-red-500">Failed to load winners.</td></tr>';
-                winnersManagementMessageBox.textContent = data.message || 'Error fetching winners.';
+            } catch (error) {
+                console.error('Error fetching winners for management:', error);
+                winnersManagementTableBody.innerHTML = '<tr><td colspan="7" class="px-6 py-4 whitespace-nowrap text-center text-red-500">Network error or server issue.</td></tr>';
+                winnersManagementMessageBox.textContent = `Could not connect to server or unexpected error: ${error.message}`;
                 winnersManagementMessageBox.classList.add('error');
                 winnersManagementMessageBox.style.display = 'block';
             }
-        } catch (error) {
-            console.error('Error fetching winners for management:', error);
-            winnersManagementTableBody.innerHTML = '<tr><td colspan="7" class="px-6 py-4 whitespace-nowrap text-center text-red-500">Network error or server issue.</td></tr>';
-            winnersManagementMessageBox.textContent = `Could not connect to server or unexpected error: ${error.message}`;
-            winnersManagementMessageBox.classList.add('error');
-            winnersManagementMessageBox.style.display = 'block';
         }
-    }
 
-    // Call the function immediately when this script is executed (i.e., when the content is loaded)
-    fetchWinnersForManagement();
+        // Call the function immediately when this script is executed (i.e., when the content is loaded)
+        fetchWinnersForManagement();
 
-    // No need for DOMContentLoaded here, as this script is loaded dynamically.
-    // The main dashboard.js will attach listeners to the buttons after this HTML is injected.
-</script>
+        // Add New Winner button listener (will typically open a modal/form)
+        document.getElementById('addNewWinnerButton').addEventListener('click', () => {
+            alert('Add New Winner functionality here!');
+            // You would typically open a modal or navigate to a form for adding a new winner
+        });
+
+    </script>
+</body>
+</html>
